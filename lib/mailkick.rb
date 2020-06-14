@@ -23,7 +23,16 @@ module Mailkick
   mattr_accessor :services, :user_method, :secret_token, :mount
   self.services = []
   # added if conditional to get Lead then contact, then User email
-  self.user_method = ->(email) { Lead.where(email: email).first rescue nil if Lead.where(email: email).first.nil? Contact.where(email: email).first rescue nil end if Contact.where(email: email).first.nil? User.where(email: email).first rescue nil end }
+  self.user_method = ->(email) { Lead.where(email: email).first rescue nil } 
+    
+  if self.user_method = ->(email) { Lead.where(email: email).first.nil? } 
+    self.user_method = ->(email) { Contact.where(email: email).first rescue nil } 
+  end 
+  
+  if self.user_method = ->(email) { Contact.where(email: email).first.nil? } 
+    self.user_method = ->(email) { User.where(email: email).first rescue nil } 
+  end 
+    
   self.mount = true
 
   def self.fetch_opt_outs
