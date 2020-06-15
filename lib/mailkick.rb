@@ -23,6 +23,10 @@ module Mailkick
   mattr_accessor :services, :user_method, :secret_token, :mount
   self.services = []
   self.user_method = ->(email) { Contact.where(email: email).first rescue nil }
+  if self.user_method.nil?
+    self.user_method = ->(email) { Lead.where(email: email).first rescue nil }
+  end
+
   self.mount = true
 
   def self.fetch_opt_outs
