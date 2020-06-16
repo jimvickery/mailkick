@@ -20,9 +20,10 @@ require "mailkick/version"
 require "mailkick/engine" if defined?(Rails)
 
 module Mailkick
-  mattr_accessor :services, :user_method, :secret_token, :mount
+  mattr_accessor :services, :user_method, :user_method2, :secret_token, :mount
   self.services = []
   self.user_method = ->(email) { Contact.where(email: email).first }
+  self.user_method2 = ->(email) { Lead.where(email: email).first }
   self.mount = true
 
   def self.fetch_opt_outs
@@ -104,6 +105,9 @@ module Mailkick
     raise ArgumentError, "Missing email" unless email
 
     user ||= Mailkick.user_method.call(email) if Mailkick.user_method
+    user ||= Mailkick.user_method2.call(email) if Mailkick.user_method2
+
+
     message_verifier.generate([email, user.try(:id), user.try(:class).try(:name), list])
   end
 end
