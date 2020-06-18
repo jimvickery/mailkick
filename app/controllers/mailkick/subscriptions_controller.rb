@@ -20,13 +20,13 @@ module Mailkick
     protected
 
     def set_email
-      , user_id, user_type, @list = Mailkick.message_verifier.verify(params[:id])
+      @email, user_id, user_type, @list = Mailkick.message_verifier.verify(params[:id])
       if user_type
         # on the unprobabilistic chance user_type is compromised, not much damage
         @user = user_type.constantize.find(user_id)
       end
       @options = {
-        email: ,
+        email: @email,
         user: @user,
         list: @list
       }
