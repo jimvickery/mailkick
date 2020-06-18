@@ -22,13 +22,8 @@ require "mailkick/engine" if defined?(Rails)
 module Mailkick
   mattr_accessor :services, :user_method, :secret_token, :mount
   self.services = []
-  test_email = self.user_method = ->(email) { Contact.where(email: email).first }
+  self.user_method = ->(email) { Contact.where(email: email).first }
   
-  if test_email.user_id.empty?
-    self.user_method = ->(email) { Lead.where(email: email).first }
-  else
-    self.user_method = ->(email) { Contact.where(email: email).first }
-  end
   
   self.mount = true
 
