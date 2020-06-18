@@ -23,7 +23,7 @@ module Mailkick
   mattr_accessor :services, :user_method, :secret_token, :mount
   self.services = []
 
-  test_email = self.user_method = ->(email) { Contact.where(email: email).first
+  test_email = self.user_method = ->(email) { Contact.where(email: email).first rescue nil }
   if test_email.present?
     self.user_method = ->(email) { Contact.where(email: email).first }
   else
