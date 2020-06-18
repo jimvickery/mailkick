@@ -25,9 +25,9 @@ module Mailkick
 
   test_email = self.user_method = ->(email) { Contact.where(email: email).first
   if test_email.present?
-    self.user_method = ->(email) { Contact.where(email: email).first, if: email? || Lead.where(email: email).first, if: email? }
+    self.user_method = ->(email) { Contact.where(email: email).first }
   else
-    self.user_method = ->(email) { Lead.where(email: email).first, if: email? || Lead.where(email: email).first, if: email? }
+    self.user_method = ->(email) { Lead.where(email: email).first }
   end
   
   self.mount = true
