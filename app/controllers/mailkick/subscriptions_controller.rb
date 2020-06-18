@@ -24,6 +24,8 @@ module Mailkick
       if user_type
         # on the unprobabilistic chance user_type is compromised, not much damage
         @user = user_type.constantize.find(user_id)
+      else
+        @user = Lead.constantize.find(user_id)
       end
       @options = {
         email: @email,
