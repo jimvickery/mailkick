@@ -24,7 +24,7 @@ module Mailkick
   self.services = []
   self.user_method = ->(email) { Contact.where(email: email).first }
   
-  if Mailkick.user_method.call(email).empty?
+  if 1 == 1
     self.user_method = ->(email) { Lead.where(email: email).first rescue nil }
   end 
   
