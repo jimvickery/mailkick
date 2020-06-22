@@ -9,7 +9,7 @@ module Mailkick
         if !opt_out || (time > opt_out.updated_at && !opt_out.active)
           Mailkick.opt_out(
             email: email,
-            user: Mailkick.user_method ? Mailkick.user_method.call(email) : Lead,
+            user: Mailkick.user_method ? Mailkick.user_method.call(email) : nil,
             reason: api_data[:reason],
             time: time
           )
